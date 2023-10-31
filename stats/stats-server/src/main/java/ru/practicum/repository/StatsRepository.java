@@ -12,7 +12,7 @@ import java.util.List;
 public interface StatsRepository extends JpaRepository<EndPointRequestRecord, Long> {
     @Query("SELECT new ru.practicum.dto.ViewStats(record.app, record.uri, count(record.id)) " +
             "FROM EndPointRequestRecord as record " +
-            "WHERE (:uris IS NULL OR record.uri IN :uris) " +
+            "WHERE (record.uri IN :uris) " +
             "AND (record.timestamp BETWEEN :start AND :end) " +
             "GROUP BY record.uri, record.app " +
             "ORDER BY count(record.id) DESC")
@@ -22,7 +22,7 @@ public interface StatsRepository extends JpaRepository<EndPointRequestRecord, Lo
 
     @Query("SELECT new ru.practicum.dto.ViewStats(record.app, record.uri, count(DISTINCT record.ip)) " +
             "FROM EndPointRequestRecord as record " +
-            "WHERE (:uris IS NULL OR record.uri IN :uris) " +
+            "WHERE (record.uri IN :uris) " +
             "AND (record.timestamp BETWEEN :start AND :end) " +
             "GROUP BY record.uri, record.app " +
             "ORDER BY count(record.ip) DESC")
@@ -30,11 +30,3 @@ public interface StatsRepository extends JpaRepository<EndPointRequestRecord, Lo
                                    @Param("end") LocalDateTime end,
                                    @Param("uris") List<String> uris);
 }
-/*
-    @Query("SELECT new ru.practicum.dto.ViewStats(record.app, record.uri, count(DISTINCT record.ip)) " +
-            "FROM EndPointRequestRecord as record " +
-            "WHERE (record.uri IN :uris) " +
-            "AND (record.timestamp BETWEEN :start AND :end) " +
-            "GROUP BY record.uri, record.app " +
-            "ORDER BY count(record.ip) DESC")
- */
