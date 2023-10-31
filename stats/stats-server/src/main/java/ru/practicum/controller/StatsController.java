@@ -36,7 +36,7 @@ public class StatsController {
     @ResponseStatus(HttpStatus.OK)
     public List<ViewStats> getStats(@RequestParam(value = "start") @NotBlank String startTimeString,
                                     @RequestParam(value = "end") @NotBlank String endTimeString,
-                                    @RequestParam(value = "uris") List<String> uris,
+                                    @RequestParam(value = "uris", required = false) List<String> uris,
                                     @RequestParam(value = "unique", required = false, defaultValue = "false") Boolean unique) {
         log.info("/stats получен для start = {}, end = {}, uris = {}, unique = {}",
                 startTimeString,
