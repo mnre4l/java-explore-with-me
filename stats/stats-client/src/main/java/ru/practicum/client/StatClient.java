@@ -9,4 +9,6 @@ public interface StatClient {
     void saveRequest(EndpointHit endpointHit);
 
     List<ViewStats> getStats(String startTimeString, String endTimeString, List<String> uris, Boolean unique);
+
+    void changeBaseUrlOn(String newBaseUrl);
 }
