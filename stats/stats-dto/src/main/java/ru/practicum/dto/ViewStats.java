@@ -1,14 +1,17 @@
 package ru.practicum.dto;
 
 public class ViewStats {
-    String app;
-    String uri;
-    Long hits;
+    private String app;
+    private String uri;
+    private Long hits;
 
     public ViewStats(String app, String uri, Long hits) {
         this.app = app;
         this.uri = uri;
         this.hits = hits;
+    }
+
+    public ViewStats() {
     }
 
     public String getApp() {
