@@ -93,6 +93,7 @@ public class ApiEventServiceImpl implements ApiEventService {
         return List.copyOf(fullDTOMapper.toDTO(events));
     }
 
+    @Saved
     @Override
     public List<EventShortDto> getPublicEvents(String text,
                                                List<Long> catIds,
