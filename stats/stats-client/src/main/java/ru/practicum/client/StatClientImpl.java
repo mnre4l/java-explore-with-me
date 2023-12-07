@@ -1,12 +1,11 @@
 package ru.practicum.client;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.practicum.dto.EndpointHit;
-import ru.practicum.dto.ViewStats;
+import ru.practicum.api.EndpointHit;
+import ru.practicum.api.ViewStats;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class StatClientImpl implements StatClient {
     private WebClient webClient;
@@ -19,20 +18,25 @@ public class StatClientImpl implements StatClient {
     public void saveRequest(EndpointHit endpointHit) {
         webClient.post()
                 .uri("/hit")
+                .bodyValue(endpointHit)
                 .retrieve()
                 .toBodilessEntity()
                 .block();
     }
 
     @Override
-    public List<ViewStats> getStats(String startTimeString, String endTimeString, List<String> uris, Boolean unique) {
+    public ResponseEntity<List<ViewStats>> getStats(String startTimeString, String endTimeString, List<String> uris, Boolean unique) {
         return webClient.get()
-                .uri("/stat", Map.of("start", startTimeString,
-                        "end", endTimeString,
-                        "uris", uris,
-                        "unique", unique))
+                .uri(uriBuilder -> uriBuilder
+                        .path("/stats")
+                        .queryParam("uris", uris)
+                        .queryParam("start", startTimeString)
+                        .queryParam("end", endTimeString)
+                        .queryParam("unique", unique)
+                        .build()
+                )
                 .retrieve()
-                .bodyToMono(ArrayList.class)
+                .toEntityList(ViewStats.class)
                 .block();
     }
 
