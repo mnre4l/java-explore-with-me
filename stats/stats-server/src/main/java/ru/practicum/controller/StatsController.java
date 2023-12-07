@@ -48,7 +48,7 @@ public class StatsController {
         LocalDateTime start = LocalDateTime.parse(startTimeString, dateTimeFormatter);
         LocalDateTime end = LocalDateTime.parse(endTimeString, dateTimeFormatter);
 
-        if (end.isAfter(start)) throw new BadStartEndTimeException("Некорректные старт и конец");
+        if (end.isBefore(start)) throw new BadStartEndTimeException("Некорректные старт и конец");
         return service.getStats(start, end, uris, unique);
     }
 }
