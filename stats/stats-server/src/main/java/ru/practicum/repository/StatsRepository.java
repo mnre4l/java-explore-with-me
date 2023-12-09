@@ -3,14 +3,14 @@ package ru.practicum.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ru.practicum.dto.ViewStats;
+import ru.practicum.api.ViewStats;
 import ru.practicum.model.EndPointRequestRecord;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface StatsRepository extends JpaRepository<EndPointRequestRecord, Long> {
-    @Query("SELECT new ru.practicum.dto.ViewStats(record.app, record.uri, count(record.id)) " +
+    @Query("SELECT new ru.practicum.api.ViewStats(record.app, record.uri, count(record.id)) " +
             "FROM EndPointRequestRecord as record " +
             "WHERE (record.uri IN :uris) " +
             "AND (record.timestamp BETWEEN :start AND :end) " +
@@ -20,7 +20,7 @@ public interface StatsRepository extends JpaRepository<EndPointRequestRecord, Lo
                              @Param("end") LocalDateTime end,
                              @Param("uris") List<String> uris);
 
-    @Query("SELECT new ru.practicum.dto.ViewStats(record.app, record.uri, count(DISTINCT record.ip)) " +
+    @Query("SELECT new ru.practicum.api.ViewStats(record.app, record.uri, count(DISTINCT record.ip)) " +
             "FROM EndPointRequestRecord as record " +
             "WHERE (record.uri IN :uris) " +
             "AND (record.timestamp BETWEEN :start AND :end) " +

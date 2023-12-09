@@ -5,8 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.dto.EndpointHit;
-import ru.practicum.dto.ViewStats;
+import ru.practicum.api.EndpointHit;
+import ru.practicum.api.ViewStats;
+import ru.practicum.exception.BadStartEndTimeException;
 import ru.practicum.service.StatsService;
 
 import javax.validation.Valid;
@@ -47,7 +48,7 @@ public class StatsController {
         LocalDateTime start = LocalDateTime.parse(startTimeString, dateTimeFormatter);
         LocalDateTime end = LocalDateTime.parse(endTimeString, dateTimeFormatter);
 
+        if (end.isBefore(start)) throw new BadStartEndTimeException("Некорректные старт и конец");
         return service.getStats(start, end, uris, unique);
     }
-
 }

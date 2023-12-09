@@ -3,7 +3,7 @@ package ru.practicum.service;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import ru.practicum.dto.EndpointHit;
+import ru.practicum.api.EndpointHit;
 import ru.practicum.model.EndPointRequestRecord;
 
 @Component

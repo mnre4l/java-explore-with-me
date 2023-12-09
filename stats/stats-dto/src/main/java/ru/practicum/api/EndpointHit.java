@@ -1,4 +1,5 @@
-package ru.practicum.dto;
+package ru.practicum.api;
+
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

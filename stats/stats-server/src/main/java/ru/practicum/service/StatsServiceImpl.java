@@ -3,8 +3,8 @@ package ru.practicum.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.practicum.dto.EndpointHit;
-import ru.practicum.dto.ViewStats;
+import ru.practicum.api.EndpointHit;
+import ru.practicum.api.ViewStats;
 import ru.practicum.model.EndPointRequestRecord;
 import ru.practicum.repository.StatsRepository;
 
