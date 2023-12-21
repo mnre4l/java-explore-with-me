@@ -6,6 +6,7 @@ import ru.practicum.service.event.states.StateAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -50,6 +51,9 @@ public class Event {
     private Location location;
     @Enumerated(EnumType.STRING)
     private StateAction stateAction;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_id")
+    private List<Comment> comments;
 
     @Data
     @Embeddable
