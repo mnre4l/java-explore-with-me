@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.api.comment.CommentDto;
+import ru.practicum.api.comment.NewCommentDto;
 import ru.practicum.api.event.EventFullDto;
 import ru.practicum.api.event.EventShortDto;
 import ru.practicum.api.event.NewEventDto;
 import ru.practicum.api.event.UpdateEventUserRequest;
+import ru.practicum.service.comments.EventCommentService;
 import ru.practicum.service.event.ApiEventService;
 import ru.practicum.service.logging.Logging;
 
@@ -20,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EventPrivateController {
     private final ApiEventService apiEventService;
+    private final EventCommentService commentService;
 
     @Logging
     @PostMapping("/{userId}/events")
@@ -52,5 +56,13 @@ public class EventPrivateController {
                                     @PathVariable("eventId") Long eventId,
                                     @RequestBody @Valid UpdateEventUserRequest updateEventUserRequest) {
         return apiEventService.updateByUser(userId, eventId, updateEventUserRequest);
+    }
+
+    @Logging
+    @PostMapping("/{userId}/events/comments")
+    @ResponseStatus(HttpStatus.CREATED)
+    public CommentDto createComment(@PathVariable("userId") Long userId,
+                                    @RequestBody @Valid NewCommentDto newCommentDto) {
+        return commentService.create(userId, newCommentDto);
     }
 }

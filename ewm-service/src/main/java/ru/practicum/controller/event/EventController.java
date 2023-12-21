@@ -4,10 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.api.comment.CommentDto;
 import ru.practicum.api.event.EventFullDto;
 import ru.practicum.api.event.EventShortDto;
 import ru.practicum.exception.BadDateRangeException;
 import ru.practicum.exception.NotFoundException;
+import ru.practicum.service.comments.EventCommentService;
 import ru.practicum.service.event.ApiEventService;
 import ru.practicum.service.event.sort.EventSort;
 import ru.practicum.service.logging.Logging;
@@ -24,6 +26,7 @@ import java.util.Optional;
 public class EventController {
     private final ApiEventService apiEventService;
     private final DateTimeFormatter formatter;
+    private final EventCommentService commentService;
 
     @Logging
     @GetMapping("/{id}")
@@ -65,5 +68,13 @@ public class EventController {
                 from,
                 size
         );
+    }
+
+    @GetMapping("/{id}/comments")
+    @ResponseStatus(HttpStatus.OK)
+    public List<CommentDto> getCommentsByEvent(@PathVariable("id") Long id,
+                                               @RequestParam(value = "from", defaultValue = "0") Integer from,
+                                               @RequestParam(value = "size", defaultValue = "10") Integer size) {
+        return commentService.getCommentsByEvent(id, from, size);
     }
 }
